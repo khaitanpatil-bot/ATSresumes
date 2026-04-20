@@ -1,14 +1,31 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useAuth } from './hooks/useAuth'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import FeaturesSection from './components/FeaturesSection'
 import HowItWorks from './components/HowItWorks'
-import ATSScannerPage from './components/ATSScannerPage'
-import JobMatcherPage from './components/JobMatcherPage'
+import ATSScannerPage from './pages/ATSScannerPage'
+import JobMatcherPage from './pages/JobMatcherPage'
 import PricingSection from './components/PricingSection'
 import Footer from './components/Footer'
+import Auth from './components/Auth'
+import ResumeManager from './pages/ResumeManager'
 
 function App() {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-slate-950 text-slate-100">
+        <p className="text-xl">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <Auth />
+  }
+
   return (
     <Router>
       <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -45,6 +62,11 @@ function App() {
             <Route path="/job-description-matcher" element={
               <section className="mx-auto max-w-7xl px-6 py-16">
                 <JobMatcherPage />
+              </section>
+            } />
+            <Route path="/resumemanager" element={
+              <section className="mx-auto max-w-7xl px-6 py-16">
+                <ResumeManager />
               </section>
             } />
           </Routes>
