@@ -46,18 +46,40 @@ created_at     | timestamp | Auto now()
    - Allow `INSERT` where `user_id = auth.uid()`
 3. For **jobs** table, do the same
 
-### Step 3: Setup Email Confirmation (Optional but Recommended)
+### Step 3: Create Storage Bucket for Resumes
+
+To store the actual uploaded PDF/DOCX files (so users can download them later):
+1. In Supabase Dashboard, go to **Storage** on the left menu.
+2. Click **New bucket**.
+3. Name the bucket `resumes` (must be exactly this name).
+4. You can leave it as a **Private** bucket (do NOT check "Public").
+
+### Step 4: Enable Storage Security Policies
+
+Since it's a private bucket, you need to allow users to upload, download, and delete their own files.
+1. In **Storage**, select your `resumes` bucket.
+2. Click on the **Policies** tab (or go to **Authentication → Policies** and filter by `storage.objects`).
+3. Click **New Policy** for the `resumes` bucket.
+4. Select **For full customization** and use these rules:
+   - **Policy Name:** `Allow users to access their own files`
+   - **Allowed Operations:** Check `SELECT`, `INSERT`, `UPDATE`, `DELETE`
+   - **Target Roles:** `authenticated`
+   - **Using expression:** `(bucket_id = 'resumes'::text) AND (auth.uid() = (storage.foldername(name))[1]::uuid)`
+   - **With check expression:** `(bucket_id = 'resumes'::text) AND (auth.uid() = (storage.foldername(name))[1]::uuid)`
+5. Save the policy. This ensures users can only access files inside their own user ID folder!
+
+### Step 5: Setup Email Confirmation (Optional but Recommended)
 
 1. Go to **Authentication → Providers → Email**
 2. Enable "Confirm email" if you want email verification
 3. Configure email templates
 
-### Step 4: Test the App
+### Step 6: Test the App
 
 1. The app now requires login before accessing features
 2. Sign up with your email
-3. Upload a resume (will be stored in the `resumes` table)
-4. View your uploaded resumes
+3. Upload a resume (it will be extracted to the `resumes` table AND the file will be saved in the `resumes` Storage Bucket)
+4. View your uploaded resumes and click "Download" to retrieve the original file!
 
 ## 📝 Component Usage
 

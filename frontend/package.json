@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",
+    "groq-sdk": "^1.1.2",
+    "mammoth": "^1.12.0",
+    "pdfjs-dist": "^5.6.205",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.14.0"

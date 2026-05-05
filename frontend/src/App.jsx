@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -64,11 +64,12 @@ function App() {
                 <JobMatcherPage />
               </section>
             } />
-            <Route path="/resumemanager" element={
+            <Route path="/resume-manager" element={
               <section className="mx-auto max-w-7xl px-6 py-16">
                 <ResumeManager />
               </section>
             } />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
         <Footer />

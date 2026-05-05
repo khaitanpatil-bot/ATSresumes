@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "install": "cd frontend && npm install"
+  },
+  "dependencies": {
+    "razorpay": "^2.9.6"
+  }
+}
